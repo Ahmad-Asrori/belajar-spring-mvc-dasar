@@ -57,6 +57,24 @@ public class ProdukRepositoryImpl implements ProdukRepository {
         jdbcTemplate.update(SQL, params);
     }
 
+    @Override
+    public void tambahProduk(Produk produk) {
+        String SQL = "INSERT INTO produk VALUES (:id, :nama, :deskripsi, :hargaUnit, :manufaktur, :kategori, :kondisi, :stokUnit, :orderUnit, :diskontinue)";
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", produk.getProdukId());
+        params.put("nama", produk.getNamaProduk());
+        params.put("deskripsi", produk.getDeskripsi());
+        params.put("hargaUnit", produk.getHargaUnit());
+        params.put("manufaktur", produk.getManufaktur());
+        params.put("kategori", produk.getKategori());
+        params.put("kondisi", produk.getKondisi());
+        params.put("stokUnit", produk.getStokUnit());
+        params.put("orderUnit", produk.getOrderUnit());
+        params.put("diskontinue", produk.isDiscontinue());
+
+        jdbcTemplate.update(SQL, params);
+    }
+
     private static final class produkMapper implements RowMapper<Produk> {
         @Override
         public Produk mapRow(ResultSet rs, int i) throws SQLException {

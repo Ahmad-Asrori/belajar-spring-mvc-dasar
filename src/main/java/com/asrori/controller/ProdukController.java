@@ -5,10 +5,9 @@ import com.asrori.service.ProdukService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.MatrixVariable;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +17,11 @@ public class ProdukController {
 
     @Autowired
     private ProdukService produkService;
+
+    @InitBinder
+    public void inisialisasiBinder(WebDataBinder binder){
+        binder.setAllowedFields("produkId", "namaProduk", "hargaUnit", "deskripsi", "manufaktur", "kategori", "stokUnit", "orderUnit", "kondisi", "diskontinu");
+    }
 
     @RequestMapping("/produks/update/stok")
     public String list(Model model){
@@ -50,4 +54,19 @@ public class ProdukController {
         model.addAttribute("produk", produkService.getProdukById(produkId));
         return "produkId";
     }
+
+    @RequestMapping(value = "/produk/tambah", method = RequestMethod.GET)
+    public String getFormTambahProduk(Model model){
+        Produk produkBaru = new Produk();
+        model.addAttribute("produkBaru", produkBaru);
+        return "tambahProduk";
+    }
+
+    @RequestMapping(value = "/produk/tambah", method = RequestMethod.POST)
+    public String prosesFormTambahProduk(@ModelAttribute("produkBaru") Produk produk, BindingResult result){
+        produkService.tambahProduk(produk);
+        return "redirect:produks";
+    }
+
+
 }

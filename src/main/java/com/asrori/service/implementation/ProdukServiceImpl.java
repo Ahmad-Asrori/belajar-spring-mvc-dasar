@@ -44,4 +44,9 @@ public class ProdukServiceImpl implements ProdukService {
     public Produk getProdukById(String produkId) {
         return produkRepository.getProdukById(produkId);
     }
+
+    @Override
+    public void tambahProduk(Produk produk) {
+        produkRepository.tambahProduk(produk);
+    }
 }

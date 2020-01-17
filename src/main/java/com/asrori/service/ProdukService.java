@@ -11,4 +11,5 @@ public interface ProdukService {
     List<Produk> getProdukByFilter(Map<String, List<String>> filterParams);
     Produk getProdukById(String produkId);
     void updateStok();
+    void tambahProduk(Produk produk);
 }
