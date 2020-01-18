@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.asrori")
-public class ConfigServlet implements WebMvcConfigurer {
+public class WebApplicationContextConfig implements WebMvcConfigurer {
 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {

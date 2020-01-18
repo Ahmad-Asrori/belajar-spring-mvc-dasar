@@ -4,7 +4,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import javax.servlet.ServletRegistration;
 
-public class ConfigDispatcherServlet extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class DispatcherServletConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
@@ -13,7 +13,7 @@ public class ConfigDispatcherServlet extends AbstractAnnotationConfigDispatcherS
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{ConfigServlet.class};
+        return new Class[]{WebApplicationContextConfig.class};
     }
 
     @Override
