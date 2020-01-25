@@ -27,6 +27,7 @@
             <c:forEach items="${produks}" var="produk">
                 <div class="col col-sm-6 col col-md-3" style="padding-bottom: 15px">
                     <div class="thumbnail">
+                        <img src="<c:url value="/img/${produk.produkId}.png"/>" alt="image" width="100%">
                         <div class="caption">
                             <h3>${produk.namaProduk}</h3>
                             <p>${produk.deskripsi}</p>

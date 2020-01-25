@@ -24,6 +24,7 @@
 
     <section class="container">
         <div class="row">
+            <img src="<c:url value="/img/${produk.produkId}.png"/>" alt="image" width="100%">
             <div class="col-md-5">
                 <h3>${produk.namaProduk}</h3>
                 <p>${produk.deskripsi}</p>

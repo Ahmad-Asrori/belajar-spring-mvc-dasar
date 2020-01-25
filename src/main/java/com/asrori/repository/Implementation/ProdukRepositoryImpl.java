@@ -1,8 +1,10 @@
 package com.asrori.repository.Implementation;
 
 import com.asrori.domain.Produk;
+import com.asrori.exception.TidakAdaProdukDiKategoriException;
 import com.asrori.repository.ProdukRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -45,8 +47,13 @@ public class ProdukRepositoryImpl implements ProdukRepository {
         String SQL = "select * from produk where id = :produkId";
         Map<String, Object> params = new HashMap<>();
         params.put("produkId", produkId);
-        return jdbcTemplate.queryForObject(SQL, params, new produkMapper());
-    }
+
+        try {
+            return jdbcTemplate.queryForObject(SQL, params, new produkMapper());
+        } catch (DataAccessException e){
+            throw new TidakAdaProdukDiKategoriException(produkId);
+        }
+     }
 
     @Override
     public void updateStok(String produkId, long banyakUnit) {

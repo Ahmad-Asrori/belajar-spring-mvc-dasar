@@ -1,5 +1,8 @@
 package com.asrori.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -16,6 +19,9 @@ public class Produk implements Serializable {
     private long orderUnit;
     private boolean discontinue;
     private String kondisi;
+
+    @JsonIgnore
+    private MultipartFile gambarProduk;
 
     public Produk() {
         super();
@@ -109,6 +115,14 @@ public class Produk implements Serializable {
 
     public void setKondisi(String kondisi) {
         this.kondisi = kondisi;
+    }
+
+    public MultipartFile getGambarProduk() {
+        return gambarProduk;
+    }
+
+    public void setGambarProduk(MultipartFile gambarProduk) {
+        this.gambarProduk = gambarProduk;
     }
 
     @Override

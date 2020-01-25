@@ -5,20 +5,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.web.servlet.LocaleContextResolver;
+import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.util.UrlPathHelper;
 
-import javax.servlet.jsp.jstl.core.Config;
+import java.util.ArrayList;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 @Configuration
 @EnableWebMvc
@@ -30,8 +31,21 @@ public class WebApplicationContextConfig implements WebMvcConfigurer {
         configurer.enable();
     }
 
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        UrlPathHelper urlPathHelper = new UrlPathHelper();
+        urlPathHelper.setRemoveSemicolonContent(false);
+        configurer.setUrlPathHelper(urlPathHelper);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/img/**")
+                .addResourceLocations("file:/home/asrori/oficiona/");
+    }
+
     @Bean
-    public InternalResourceViewResolver internalResourceViewResolver(){
+    public InternalResourceViewResolver resourceViewResolver(){
         InternalResourceViewResolver bean = new InternalResourceViewResolver();
         bean.setViewClass(JstlView.class);
         bean.setPrefix("/WEB-INF/jsp/");
@@ -53,12 +67,29 @@ public class WebApplicationContextConfig implements WebMvcConfigurer {
         return bean;
     }
 
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-        UrlPathHelper urlPathHelper = new UrlPathHelper();
-        urlPathHelper.setRemoveSemicolonContent(false);
-        configurer.setUrlPathHelper(urlPathHelper);
+    @Bean
+    public CommonsMultipartResolver multipartResolver(){
+        CommonsMultipartResolver bean = new CommonsMultipartResolver();
+        bean.setDefaultEncoding("utf-8");
+        return bean;
     }
 
+    @Bean
+    public MappingJackson2JsonView jsonView(){
+        MappingJackson2JsonView bean = new MappingJackson2JsonView();
+        bean.setPrettyPrint(true);
+        return bean;
+    }
 
+    @Bean
+    public ViewResolver viewResolver(ContentNegotiationManager manager){
+        ContentNegotiatingViewResolver bean = new ContentNegotiatingViewResolver();
+        bean.setContentNegotiationManager(manager);
+
+        ArrayList<View> views = new ArrayList<>();
+        views.add(jsonView());
+        bean.setDefaultViews(views);
+
+        return bean;
+    }
 }

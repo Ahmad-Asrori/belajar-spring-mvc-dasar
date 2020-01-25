@@ -17,11 +17,11 @@
     </div>
 </section>
 <section class="container">
-    <form:form method="POST" modelAttribute="produkBaru" class="form-horizontal">
+    <form:form method="POST" modelAttribute="produkBaru" class="form-horizontal" enctype="multipart/form-data">
         <fieldset>
             <legend>Tambah Produk Baru</legend>
             <div class="form-group">
-                <label class="control-label col col-lg-2" for="produkId"><spring:message code="tambahProduk.form.produkId.label"/></label>
+                <label class="control-label col col-lg-2" for="produkId">Produk Id</label>
                 <div class="col col-lg-10">
                     <form:input id="produkId" path="produkId" type="text" class="form:input-large"/>
                 </div>
@@ -93,10 +93,18 @@
             </div>
 
             <div class="form-group">
+                <label class="control-label col-lg-2" for="productImage">Gambar Produk</label>
+                <div class="col-lg-10">
+                    <form:input id="productImage" path="gambarProduk" type="file" class="form:input-large" />
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col col-lg-offset-2 col-lg-10">
                     <input type="submit" id="btnAdd" class="btn btn-primary" value="Tambah Produk"/>
                 </div>
             </div>
+
         </fieldset>
     </form:form>
 </section>
